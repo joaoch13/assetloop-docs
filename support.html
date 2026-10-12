@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assetloop support and user guide</title>
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem;color:#172b4d}h1,h2{line-height:1.25}code{background:#f4f5f7;padding:0 .25em}</style>
+</head><body>
+<h1>Assetloop support and user guide</h1>
+<p><b>Contact:</b> <a href="mailto:jcmatos@gmail.com">jcmatos@gmail.com</a>. We answer within two working days (Central European Time).</p>
+
+<h2>Getting started</h2>
+<ol>
+<li>Open <b>Apps &rarr; Asset register</b> in the Jira sidebar for the whole register. Each project also has an
+<b>Asset register</b> page that shows the assets with that project's key.</li>
+<li>Press <b>New asset</b>, or <b>Import CSV</b> to bring in an existing list (see below).</li>
+<li>Choose the type, a name and a status, then the owner (accountable) and, for hardware, the person it is
+assigned to. The form shows the dates and fields that the type uses.</li>
+</ol>
+
+<h2>Asset types</h2>
+<ul>
+<li><b>Hardware:</b> warranty end date; default attributes Model and Serial number.</li>
+<li><b>Software licence:</b> licence expiry date, seats bought and seats in use; Vendor and Licence type.</li>
+<li><b>Information asset</b> (ISO 27001 A.5.9): classification and confidentiality / integrity / availability
+ratings (1 Low, 2 Medium, 3 High); Where it is stored and Legal or contractual basis.</li>
+<li><b>Cloud service / supplier:</b> contract end date, seats and CIA ratings; Vendor and Data processed.</li>
+</ul>
+<p>Statuses: In stock, In use, In repair, Retired, Disposed. Classifications: Public, Internal, Confidential,
+Restricted. A Jira administrator can change the custom attributes of each type in the settings.</p>
+
+<h2>Rules</h2>
+<p>Assetloop checks these on every save, from the form, the import and every other path. An asset that breaks one
+is not saved, and the message says what is missing.</p>
+<ul>
+<li>An asset that is <b>In use</b> needs an owner.</li>
+<li>An <b>information asset</b> needs an owner and a classification (ISO 27001 A.5.9 and A.5.12).</li>
+<li>A <b>disposed</b> asset needs a disposal date (not in the future) and a disposal note: how it was disposed of,
+and who confirmed it.</li>
+</ul>
+<p>Assets are never deleted. <b>Retire</b> or dispose them; <b>Include retired and disposed</b> shows them again.</p>
+
+<h2>Reviews and history</h2>
+<p>Every asset has a next review date. After reviewing it, open the asset and press <b>Mark reviewed</b>: Assetloop
+records the review and moves the next review date on by the review interval (365 days unless an administrator
+changes it).</p>
+<p>Every change is recorded in the asset's <b>History</b>: when, who, and what changed from what to what.
+<b>History CSV</b> exports one asset's history; <b>Change log</b> on the register page exports the history of every
+asset. The history is written by the app on each save and has no screen to edit it, but it is a record kept by the
+app, not a certified or tamper-proof audit log. Use it together with your other evidence.</p>
+
+<h2>The daily check</h2>
+<p>Once a day Assetloop looks for licences, warranties and contracts that expire within 30 days or have expired,
+reviews that are overdue, and licences with more seats in use than bought. Those assets show a badge in the register,
+and <b>Needs attention only</b> lists just them.</p>
+<p>A Jira administrator can choose a project in the settings to also raise <b>one work item per problem</b>,
+assigned to the asset owner. Each problem is raised once, at most 25 a day. <b>Run check now</b> on the settings page
+runs it at once (at most 8 work items per press) and is safe to repeat. Retired and disposed assets are never
+flagged.</p>
+
+<h2>Linking assets to work items</h2>
+<p>Open a work item and add the <b>Assets</b> panel (from the apps icon under the work item's title). Search for an asset and
+press <b>Link</b>; <b>Unlink</b> removes it. Every link and unlink is recorded in the asset's history, and the asset
+shows the work items linked to it.</p>
+<p>The links are kept in the <b>"Linked assets"</b> field, so you can search them with JQL:</p>
+<ul>
+<li><code>"Linked assets" = AST-12</code> &mdash; work items about asset AST-12</li>
+</ul>
+<p>The asset's detail view shows the exact query for that asset.</p>
+<p>The field is set only from the Assets panel, not from the work item's edit screen, so that every change lands in
+the history.</p>
+
+<h2>The "Linked assets are not in use" rule</h2>
+<p>This workflow validator stops a work item from moving on while an asset linked to it is still <b>In use</b>. Add
+it to the closing transition of your offboarding or disposal workflow: an offboarding ticket then cannot be closed
+while the laptop is still assigned. In Jira settings &rarr; Work items &rarr; Workflows, edit the workflow, select the
+closing transition and add the validator "Linked assets are not in use". Work items with no linked assets are never
+blocked, and if the rule ever fails to run it lets the transition through rather than blocking work.</p>
+
+<h2>Importing and exporting</h2>
+<p><b>Export CSV</b> exports the assets shown with the current filters. <b>Import CSV</b> takes pasted rows with a
+header line:</p>
+<ul>
+<li>The columns are the same as the export, so an exported file imports back. Only <b>Name</b> is required; any
+column Assetloop does not know becomes a custom attribute.</li>
+<li>Owners and assigned users can be names or emails of Jira users.</li>
+<li>Up to 500 assets and 150 different people at a time.</li>
+<li>Press <b>Check</b> first. Every row is checked against the rules; if one row is wrong, nothing is imported and
+the rows to fix are listed.</li>
+<li>If an import is cut off (a timeout), press <b>Import</b> again with the same text: it finishes the import
+without duplicating anything.</li>
+<li>Import always creates new assets; it does not update existing ones.</li>
+</ul>
+
+<h2>Dashboard gadget</h2>
+<p>Add the <b>Asset register overview</b> gadget to a dashboard: assets by status and classification, how many
+expire within 30 days or have expired, overdue reviews, seat overruns, and the assets that need attention. Edit the
+gadget to show one project or all assets.</p>
+
+<h2>Settings and who can see what (Jira administrators)</h2>
+<p>Jira settings &rarr; Apps &rarr; <b>Assetloop settings</b>:</p>
+<ul>
+<li><b>Review interval</b> for new and reviewed assets, in days.</li>
+<li><b>Viewers group:</b> empty by default, which means every Jira user on the site can see the register, the
+Assets panel and the gadget. Enter a Jira group to limit viewing to its members, the editors group and Jira
+administrators.</li>
+<li><b>Editors group:</b> empty by default, which means everyone who can see the register can change it. Enter a
+Jira group to limit changes to its members; others see the register read-only. Jira administrators can always edit.</li>
+<li>The project and work type for the <b>daily check</b>, and the <b>custom attributes</b> of each asset type.</li>
+</ul>
+<p>Linked work items are shown only to people who can see them in Jira.</p>
+
+<h2>Your data</h2>
+<p>Assetloop runs on Atlassian. The register is stored in the app's Forge SQL database, hosted by Atlassian for your
+site, and only account ids are kept for people. Nothing is sent to us. See the <a href="privacy.html">privacy
+policy</a>.</p>
+</body></html>

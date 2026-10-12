@@ -1,0 +1,69 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Assetloop privacy policy</title>
+<style>body{font:16px/1.6 system-ui,sans-serif;max-width:46rem;margin:2rem auto;padding:0 1rem;color:#172b4d}h1,h2{line-height:1.25}</style>
+</head><body>
+<h1>Assetloop privacy policy</h1>
+<p>Last updated: 13 October 2026</p>
+<p>Assetloop: Asset Register for Jira ("Assetloop") is published by Joao Duro De Matos,
+a sole proprietorship registered in Poland (NIP 9452193255), Ułanów 64D lok. 27, 31-460 Kraków, Poland.</p>
+
+<h2>The short version</h2>
+<p>Assetloop runs on Atlassian Forge and is eligible for the "Runs on Atlassian" programme. It has no servers of
+its own. Everything it stores stays inside Atlassian's platform, for your Jira site, and it sends no data to us or
+to anyone else. About people, it stores only Atlassian account ids, never names or email addresses.</p>
+
+<h2>What Assetloop stores, and where</h2>
+<p>Assetloop keeps its data in the Forge SQL database that Atlassian hosts for the app on your site. Only
+Assetloop can read it; it is not shared with other sites or other apps.</p>
+<ul>
+<li><b>Assets:</b> type, name, status, owner and assigned user (as account ids), location, classification,
+confidentiality / integrity / availability ratings, dates (purchase, expiry, review, disposal), seats, project
+key, notes, disposal note and your custom attributes.</li>
+<li><b>Change history:</b> for every change, when it happened, the account id of the person who made it, and the
+fields that changed. Links to work items are kept as the work item key only (for example ITAM-12).</li>
+<li><b>Daily check log:</b> which problems (an expiring licence, an overdue review...) have already been raised,
+and the key of the work item raised for each, so that nothing is raised twice.</li>
+<li><b>Settings:</b> review interval, the optional viewers and editors group names, the project and work type for
+the daily check, and the custom attribute names.</li>
+<li><b>Account list:</b> the account ids stored above, kept so they can be reported to Atlassian (see Personal
+data).</li>
+</ul>
+<p>Assetloop also writes to Jira itself, through Jira's own APIs:</p>
+<ul>
+<li>the <b>"Linked assets"</b> field on a work item holds the tags of the assets linked to it (for example
+AST-12), set from the Assets panel;</li>
+<li>if an administrator chooses a project for the daily check, Assetloop <b>creates work items</b> there, one per
+problem found, assigned to the asset owner.</li>
+</ul>
+<p>Free text you type (asset names, notes, locations, custom attributes) is stored as you typed it. Please do not
+put personal data there that you do not need.</p>
+<p>Assets are not deleted from the app: they are retired or disposed, and stay in the register for the record.
+When the app is uninstalled, Atlassian removes the app's stored data under its Forge data retention rules. Export
+the register and the change log to CSV first if you want to keep them. Work items and "Linked assets" values stay
+in Jira like any other Jira data.</p>
+
+<h2>Personal data</h2>
+<p>Assetloop stores the Atlassian account ids of asset owners, assigned users and people who changed an asset. It
+does not store names or email addresses: names are looked up from Jira each time they are shown. During a CSV
+import, the names or emails in the file are looked up in Jira to find the account id, and only the account id is
+kept.</p>
+<p>Once a week Assetloop reports the account ids it stores to Atlassian's personal data reporting API, as
+Atlassian requires. When Atlassian answers that an account has been closed, Assetloop removes that account id from
+the assets and the change history; the history then shows "Closed account".</p>
+<p>Who can see the register is up to your Jira administrators. By default every Jira user on the site can see the
+register, the Assets panel and the dashboard gadget. An administrator can limit viewing to one Jira group and
+changes to another (Jira administrators always have access).</p>
+<p>Atlassian processes your data under its own terms and privacy policy. For the data Assetloop stores, your
+organisation remains the controller; we never receive it.</p>
+
+<h2>What we receive</h2>
+<p>Nothing from your Jira content or from the register. Assetloop makes no calls outside Atlassian. Like every
+Marketplace partner, we can see the licensing and install information Atlassian provides to partners (for example
+which sites have the app installed and the licence tier) and the logs Forge keeps for the app. Those logs record
+counts and errors, and an error may contain an asset tag or a work item key. We use this information only to
+support and improve Assetloop.</p>
+
+<h2>Contact</h2>
+<p>Questions about this policy: <a href="mailto:jcmatos@gmail.com">jcmatos@gmail.com</a>. User guide: <a href="support.html">support page</a>.</p>
+</body></html>
